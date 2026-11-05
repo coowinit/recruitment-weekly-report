@@ -1,0 +1,59 @@
+{
+  "version": 1,
+  "basic": {
+    "reporter": "示例填写人",
+    "department": "人力资源部",
+    "year": 2026,
+    "month": 11,
+    "week": 1
+  },
+  "positions": [
+    {
+      "department": "销售部",
+      "role": "销售专员",
+      "weeklyTarget": 2,
+      "weeklyInterviews": 4,
+      "weeklyHires": 1,
+      "nextTarget": 2,
+      "nextInterviews": 5,
+      "monthlyTarget": 6,
+      "monthlyHires": 2
+    },
+    {
+      "department": "市场部",
+      "role": "市场专员",
+      "weeklyTarget": 1,
+      "weeklyInterviews": 3,
+      "weeklyHires": 1,
+      "nextTarget": 1,
+      "nextInterviews": 2,
+      "monthlyTarget": 3,
+      "monthlyHires": 1
+    }
+  ],
+  "channels": [
+    {
+      "name": "招聘平台 A",
+      "total": 120,
+      "effective": 35
+    },
+    {
+      "name": "员工推荐",
+      "total": 12,
+      "effective": 5
+    }
+  ],
+  "optimization": "优化岗位描述与筛选条件。",
+  "interviewNotes": "本周安排重点岗位复试。",
+  "offerNotes": "候选人等待确认薪酬和到岗时间。",
+  "onboardingNotes": "准备新员工入职资料。",
+  "tasks": [
+    {
+      "project": "重点岗位招聘",
+      "status": "进行中",
+      "goal": "完成筛选与面试安排",
+      "progress": "已完成初步筛选",
+      "issue": "面试时间待协调"
+    }
+  ]
+}

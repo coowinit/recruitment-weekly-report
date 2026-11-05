@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>招聘工作周报 · Recruitment Weekly Report</title>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script defer src="assets/js/app.js"></script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar no-print">
+    <div class="brand"><span class="brand-icon">R</span><span>Recruitment <strong>Weekly</strong><small>招聘工作周报管理工具</small></span></div>
+    <div class="top-actions">
+      <span id="save-indicator" class="save-indicator" role="status" aria-live="polite">示例数据</span>
+      <button type="button" class="btn btn-soft" id="new-report">新建周报</button>
+      <button type="button" class="btn btn-soft" id="import-btn">导入 JSON</button>
+      <button type="button" class="btn btn-primary" id="export-btn">导出 JSON</button>
+      <button type="button" class="btn btn-soft" id="print-btn">打印 / PDF</button>
+      <input type="file" id="import-file" accept=".json,application/json" hidden tabindex="-1" aria-label="选择周报 JSON 文件">
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="hero">
+      <div><div class="eyebrow">WEEKLY RECRUITMENT REPORT</div><h1>招聘工作周报</h1><p>招聘目标与实际表现，一页掌握。支持本地编辑与 JSON 备份。</p></div>
+      <div class="hero-stamp">HR <span>WEEKLY</span></div>
+    </div>
+    <section class="panel intro" aria-labelledby="basic-title">
+      <div class="section-heading"><div><div class="section-kicker">REPORT INFORMATION</div><h2 id="basic-title">基本信息</h2></div><span class="hint">所有字段均可编辑</span></div>
+      <div class="form-grid basic-grid">
+        <label>报告人<input id="reporter" data-basic="reporter" type="text" maxlength="80" placeholder="例如：张三"></label>
+        <label>所属部门<input id="reportDepartment" data-basic="department" type="text" maxlength="80" placeholder="例如：人力资源部"></label>
+        <label>年份<input id="year" data-basic="year" type="number" min="2000" max="2100"></label>
+        <label>月份<select id="month" data-basic="month"></select></label>
+        <label>周次<select id="week" data-basic="week"></select></label>
+      </div>
+      <details class="period-help"><summary>周次如何计算？</summary><p class="minor-note">周次采用月内第 1～6 周的简单标记，不自动推断具体起止日期；如需精确日期可填写备注。</p></details>
+    </section>
+
+    <div class="kpi-grid" aria-label="本周招聘指标">
+      <article class="kpi"><div class="kpi-label">本周招聘目标</div><div class="kpi-value" id="kpi-target">0</div><div class="kpi-sub">计划入职人数</div></article>
+      <article class="kpi"><div class="kpi-label">本周面试人数</div><div class="kpi-value" id="kpi-interviews">0</div><div class="kpi-sub">本周完成面试</div></article>
+      <article class="kpi"><div class="kpi-label">本周实际入职</div><div class="kpi-value" id="kpi-hires">0</div><div class="kpi-sub">实际入职人数</div></article>
+      <article class="kpi kpi-feature"><div class="kpi-label">本周招聘完成率</div><div class="kpi-value" id="kpi-rate">—</div><div class="kpi-sub" id="kpi-rate-hint">目标为零时显示 —</div></article>
+    </div>
+
+    <section class="panel" aria-labelledby="progress-title">
+      <div class="section-heading"><div><div class="section-kicker">01 / RECRUITMENT PROGRESS</div><h2 id="progress-title">一、招聘进度</h2><p>分别录入本周实际、下周计划与本月累计数据，汇总自动计算。</p></div><button type="button" class="btn btn-outline no-print" id="add-position">＋ 新增岗位</button></div>
+      <div class="table-scroll" aria-label="招聘岗位数据；手机端按岗位分组显示"><table class="data-table position-table"><thead><tr><th rowspan="2">部门</th><th rowspan="2">岗位</th><th colspan="4">本周完成</th><th colspan="2">下周计划</th><th colspan="3">本月累计</th><th rowspan="2" class="no-print">操作</th></tr><tr><th>招聘目标</th><th>面试量</th><th>入职</th><th>完成率</th><th>招聘目标</th><th>面试量</th><th>招聘目标</th><th>入职累计</th><th>完成率</th></tr></thead><tbody id="position-rows"></tbody><tfoot><tr id="position-totals"></tr></tfoot></table></div>
+      <p class="minor-note">完成率 = 入职 ÷ 招聘目标 × 100%；目标为 0 时显示「—」。本月累计由手动录入的月度数据计算，避免将本周入职误当作全月入职。</p>
+    </section>
+
+    <section class="panel" aria-labelledby="process-title">
+      <div class="section-heading"><div><div class="section-kicker">02 / PROCESS TRACKING</div><h2 id="process-title">二、招聘过程管控</h2><p>记录渠道效果、候选人推进和本周改进措施。</p></div><button type="button" class="btn btn-outline no-print" id="add-channel">＋ 新增渠道</button></div>
+      <h3 class="subheading">招聘渠道数据</h3>
+      <div class="table-scroll" aria-label="招聘渠道数据；手机端按渠道分组显示"><table class="data-table channel-table"><thead><tr><th>渠道名称</th><th>沟通 / 推荐量</th><th>有效 / 通过量</th><th>转化率</th><th class="no-print">操作</th></tr></thead><tbody id="channel-rows"></tbody><tfoot><tr id="channel-totals"></tr></tfoot></table></div>
+      <p class="minor-note">渠道的“有效量”需按内部统一口径填写；不同渠道的转化率仅作参考，不能直接比较质量。</p>
+      <div class="section-split"><div><h3 class="subheading">本周优化动作</h3><textarea id="optimization" rows="5" placeholder="记录本周调整的招聘渠道、招聘策略、协作安排及其效果……"></textarea></div><div><h3 class="subheading">招聘流程跟进</h3><div class="stack-fields"><label>面试环节<textarea id="interviewNotes" rows="2" placeholder="重点候选人、面试安排、待确认事项"></textarea></label><label>Offer / 谈薪<textarea id="offerNotes" rows="2" placeholder="待谈薪、待发 Offer、待确认事项"></textarea></label><label>入职跟进<textarea id="onboardingNotes" rows="2" placeholder="预计入职、入职准备与后续跟进"></textarea></label></div></div></div>
+    </section>
+
+    <section class="panel" aria-labelledby="task-title"><div class="section-heading"><div><div class="section-kicker">03 / KEY PRIORITIES</div><h2 id="task-title">三、关键事项推进</h2><p>关注重要招聘项目、执行进度与异常风险。</p></div><button type="button" class="btn btn-outline no-print" id="add-task">＋ 新增事项</button></div><div id="task-list" class="task-list"></div></section>
+    <footer class="footer">Recruitment Weekly Report <span>·</span> 本地静态原型 <span>·</span> 无服务器上传</footer>
+  </main>
+</div>
+<div id="toast" role="status" aria-live="polite" class="toast"></div>
+<template id="position-template"><tr><td data-label="部门"><input data-key="department" type="text" maxlength="80" placeholder="部门名称" aria-label="部门"></td><td data-label="岗位"><input data-key="role" type="text" maxlength="80" placeholder="招聘岗位" aria-label="岗位"></td><td data-label="周目标"><input data-key="weeklyTarget" type="number" min="0" max="999999" step="1" aria-label="周目标"></td><td data-label="周面试"><input data-key="weeklyInterviews" type="number" min="0" max="999999" step="1" aria-label="周面试"></td><td data-label="周入职"><input data-key="weeklyHires" type="number" min="0" max="999999" step="1" aria-label="周入职"></td><td data-label="周完成率" class="computed" data-rate="weekly">—</td><td data-label="下周目标"><input data-key="nextTarget" type="number" min="0" max="999999" step="1" aria-label="下周目标"></td><td data-label="下周面试"><input data-key="nextInterviews" type="number" min="0" max="999999" step="1" aria-label="下周面试"></td><td data-label="月目标"><input data-key="monthlyTarget" type="number" min="0" max="999999" step="1" aria-label="月目标"></td><td data-label="月入职"><input data-key="monthlyHires" type="number" min="0" max="999999" step="1" aria-label="月入职"></td><td data-label="月完成率" class="computed" data-rate="monthly">—</td><td class="no-print"><button type="button" class="icon-btn delete-row" aria-label="删除岗位" title="删除岗位">×</button></td></tr></template>
+<template id="channel-template"><tr><td data-label="渠道"><input data-key="name" type="text" maxlength="80" placeholder="如：招聘平台 A" aria-label="渠道名称"></td><td data-label="沟通 / 推荐量"><input data-key="total" type="number" min="0" max="999999" step="1" aria-label="沟通或推荐量"></td><td data-label="有效 / 通过量"><input data-key="effective" type="number" min="0" max="999999" step="1" aria-label="有效或通过量"></td><td data-label="转化率" class="computed" data-rate="channel">—</td><td class="no-print"><button type="button" class="icon-btn delete-row" aria-label="删除渠道" title="删除渠道">×</button></td></tr></template>
+<template id="task-template"><article class="task-card"><div class="task-top"><div class="task-summary"><span class="task-number">事项</span><strong class="task-title">未命名事项</strong><span class="task-status">未开始</span></div><div class="task-actions no-print"><button type="button" class="task-toggle" aria-expanded="true" aria-label="折叠事项详情">收起 <span aria-hidden="true">⌃</span></button><button type="button" class="icon-btn delete-task" aria-label="删除事项" title="删除事项">×</button></div></div><div class="task-grid"><label>项目名称<input data-key="project" type="text" maxlength="120" placeholder="例如：重点岗位招聘"></label><label>状态<select data-key="status"><option>未开始</option><option>进行中</option><option>已完成</option><option>存在风险</option></select></label><label>目标<textarea data-key="goal" rows="3" placeholder="要达到什么结果"></textarea></label><label>执行进度<textarea data-key="progress" rows="3" placeholder="本周推进了哪些工作"></textarea></label><label class="span-two">异常与风险<textarea data-key="issue" rows="2" placeholder="阻碍因素、需要协助的事项（如无可留空）"></textarea></label></div></article></template>
+</body>
+</html>
